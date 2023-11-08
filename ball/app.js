@@ -15,18 +15,15 @@ let groundHeight = 5;
 let groundWidth = 90;
 let brickArr = [];
 let count = 0;
-let bestTime = "未有通關紀錄";
+let bestTime = "";
 let startTime;
 loadBestTime();
-bestTimeRecord.innerText = `最快通關速度：${bestTime}`;
+bestTimeRecord.innerText = `最快通關速度：${bestTime}秒`;
 
-//生成某區間的數字：0≤x≤950；0≤y≤550
-// 假設min:100，max:500，那我們要做的就是400內的整數
 function getRandom(min, max) {
   return min + Math.floor(Math.random() * (max - min));
 }
 
-//製作磚塊
 class Brick {
   constructor(x, y) {
     this.x = x;
@@ -42,7 +39,6 @@ class Brick {
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 
-  //寫在這邊是讓磚塊可確認自己是有和球撞到
   touchBall(ballX, ballY) {
     return (
       ballX >= this.x - radius &&
@@ -53,7 +49,6 @@ class Brick {
   }
 }
 
-//製作所有磚塊
 for (let i = 0; i < 30; i++) {
   new Brick(getRandom(0, 375), getRandom(0, 275));
 }
@@ -63,14 +58,11 @@ function drawCircle() {
     startTime = new Date();
   }
 
-  //確認球有沒右打到磚塊
   brickArr.forEach((brick, index) => {
     if (brick.visible && brick.touchBall(circle_x, circle_y)) {
-      //改變方向速度，且將brick從arr刪除，並記數
       count++;
       brick.visible = false;
 
-      //從上面撞的 跟 從上面
       if (circle_y >= brick.y + brick.height) {
         ySpeed *= -1;
         circle_y -= 20;
@@ -86,43 +78,36 @@ function drawCircle() {
         xSpeed *= -1;
       }
 
-      //   brickArr.splice(index, 1); //切掉arr某元素，會讓元素的排序重新排列，時間複雜度較高
-      //   if (brickArr.length == 0) {
-      //     alert("遊戲結束");
-      //   }
-
       if (count == 30) {
         const nowSec = new Date();
-        const bestTime = (nowSec - startTime) / 1000;
+        const thisTime = (nowSec - startTime) / 1000;
 
-        alert(`遊戲結束，您總共花費${bestTime}秒`);
-        // alert(`遊戲結束，您總共花費${mins}分${sec}秒`);
+        alert(`遊戲結束，您總共花費${thisTime}秒`);
+
         clearInterval(game);
-        setBestTime(bestTime);
+        setBestTime(thisTime);
       }
     }
   });
 
-  // 確認球有沒有打到板子
   if (
     circle_x >= ground_x - radius &&
     circle_x <= ground_x + groundWidth + radius &&
     circle_y >= ground_y - radius &&
-    circle_y <= ground_y + groundHeight + radius
+    circle_y < ground_y + groundHeight + radius
   ) {
-    //球仍可在板子裡彈跳，所以要增加此段，產生彈力感
-    // ySpeed>0代表球往下掉，讓他向上彈40
-    if (ySpeed > 0) {
-      circle_y -= 20;
-    }
-    if (ySpeed < 0) {
-      circle_y += 20;
-    }
+    let impactPosition = (circle_x - ground_x) / groundWidth;
+    let xSpeedChange = (impactPosition - 0.5) * 2; // -1 到 1 的值，基于撞击点在板子上的位置
+    xSpeed += xSpeedChange * 2; // 根据撞击点的位置改变水平速度
+
+    // 讓球從板子上彈起
     ySpeed *= -1;
+
+    // 調整球的y位置，避免重疊
+    circle_y = ground_y - radius;
   }
 
   if (circle_x >= canvasWidth - radius) {
-    //確認球是否到達邊界
     circle_x -= 20;
     xSpeed *= -1;
   } else if (circle_x <= radius) {
@@ -130,24 +115,22 @@ function drawCircle() {
     xSpeed *= -1;
   } else if (circle_y >= canvasHeight - radius) {
     alert(`YOU LOSE!`);
-    // alert(`遊戲結束，您總共花費${mins}分${sec}秒`);
     clearInterval(game);
-    // setBestTime(bestTime);
-    // circle_y -= 40;
-    // ySpeed *= -1;
   } else if (circle_y <= radius) {
     circle_y += 20;
     ySpeed *= -1;
   }
-  //更動圓球的座標
+
   circle_x += xSpeed;
   circle_y += ySpeed;
 
-  //每次更新都先畫出黑色背景，x、y、寬、高
+  const maxSpeed = 15;
+  xSpeed = Math.max(Math.min(xSpeed, maxSpeed), -maxSpeed);
+  ySpeed = Math.max(Math.min(ySpeed, maxSpeed), -maxSpeed);
+
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-  //畫出所有磚塊
   brickArr.forEach((brick) => {
     // brick.drawBrick();
     if (brick.visible) {
@@ -155,21 +138,18 @@ function drawCircle() {
     }
   });
 
-  //畫出可控制的地板
   ctx.fillStyle = "orange";
   ctx.fillRect(ground_x, ground_y, groundWidth, groundHeight);
   c.addEventListener("touchmove", (e) => {
     e.preventDefault();
     const touchX = e.touches[0].clientX;
-    ground_x = touchX - groundWidth / 2; // 將板子中心對齊觸碰點
+    ground_x = touchX - groundWidth / 2;
   });
 
   c.addEventListener("mousemove", (e) => {
-    // console.log(e); //可看出越往右邊clientX越小，clientX最大就是canvas.width
     ground_x = e.clientX - window.innerWidth * 0.4;
   });
 
-  //劃出圓球，圓形有五個參數:x,y,半徑,起始角度、終點角度
   ctx.beginPath();
   ctx.arc(circle_x, circle_y, ballRadius, 0, 2 * Math.PI);
   ctx.stroke();
@@ -187,10 +167,10 @@ function loadBestTime() {
   }
 }
 
-function setBestTime(time) {
-  if (time < bestTime || bestTime == "未有通關紀錄") {
-    localStorage.setItem("bestTime", time);
-    bestTime = time;
+function setBestTime(thisTime) {
+  if (thisTime < bestTime || bestTime == "未有通關紀錄") {
+    localStorage.setItem("bestTime", thisTime);
+    bestTime = thisTime;
   }
 }
 
