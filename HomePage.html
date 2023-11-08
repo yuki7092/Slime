@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>史萊姆的第一個家</title>
+    <link rel="stylesheet" href="./bootstrap.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="container-fluid row mx-auto">
+      <div class="col-12 col-lg-8 mx-auto mt-2">
+        <div class="row">
+          <div class="nav p-0 col-3 col-md-2">
+            <ul class="w-100 p-0">
+              <li class="mb-1 pt-1 ps-2">
+                <a href="#" class="fw-bold">最新消息</a>
+              </li>
+              <li class="mb-1 pt-1 ps-2">
+                <a href="./index.html" class="text-danger fw-bold">好玩遊戲</a>
+              </li>
+              <li class="mb-1 pt-1 ps-2">
+                <a href="mailto:slime@slime.com.tw" class="fw-bold">寫信給我</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-9 col-md-8">
+            <div class="logo text-center mb-3 border-0">
+              <img src="./img/firstHome.jpg" class="img-fluid" alt="" />
+            </div>
+            <div class="content">
+              <ul class="diray p-0">
+                <li class="border-bottom-0 fw-bold text-center">
+                  史萊姆日記本~每次updated後都會記錄哦 ^_^
+                </li>
+                <li class="border-bottom-0 text-center today">10月28日</li>
+                <li class="border-bottom-0 p-2">
+                  這是一個致敬史萊姆好玩遊戲區的作品，裡面是自製的小遊戲。
+                </li>
+                <li class="border-bottom-0 text-center">10月28日</li>
+                <li class="text-center p-2">此網頁誕生的日期^_^。</li>
+                <li class="border-bottom-0 text-center">10月27日</li>
+                <li class="p-2">
+                  KMPlayer v2023.10.26.12
+                  多國語言版來了！一套將網路上所有能見得到的解碼程式(Codec)全部收集於一身的影音播放軟體。謝謝網友
+                  Reny Rainer 推薦 ^_^ 請到軟體下載區(影片播放)下載。
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-2 border border-info p-0 d-none d-md-block">
+            <img src="./img/advertise-Long.jpg" class="mw-100" alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const today = document.querySelector(".today");
+
+      const d = new Date();
+      console.log(d);
+      const month = d.getMonth() + 1;
+      const date = d.getDate();
+
+      console.log(date);
+      console.log(month);
+
+      today.innerText = `${month}月${date}日`;
+    </script>
+  </body>
+</html>

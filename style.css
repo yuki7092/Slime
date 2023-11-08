@@ -1,0 +1,97 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: lightblue;
+}
+
+li {
+  list-style: none;
+}
+
+a:hover {
+  color: red;
+}
+
+.logo {
+  border-bottom: 3px solid rgb(255, 166, 0);
+}
+.logo .play {
+  width: 25px;
+}
+
+thead {
+  background-color: rgb(211, 232, 185);
+}
+
+.games td:nth-of-type(1) {
+  background-color: lightyellow;
+  width: 30%;
+  position: relative;
+}
+.games td:nth-of-type(1):hover {
+  background-color: rgb(248, 201, 151);
+}
+.games td:nth-of-type(1) img {
+  width: 45%;
+}
+@media screen and (max-width: 568px) {
+  .games td:nth-of-type(1) img {
+    width: 80%;
+  }
+}
+.games td:nth-of-type(1) small {
+  font-size: 12px;
+}
+.games td:nth-of-type(2) {
+  background-color: rgb(244, 230, 208);
+}
+
+.gamesText td:nth-of-type(1) {
+  background-color: lightyellow;
+  width: 23%;
+}
+.gamesText td:nth-of-type(1):hover {
+  background-color: rgb(248, 201, 151);
+}
+.gamesText td:nth-of-type(2) {
+  background-color: rgb(244, 230, 208);
+  width: 53%;
+}
+.gamesText td:nth-of-type(3) {
+  background-color: rgb(244, 230, 208);
+}
+
+.bg-active {
+  background-color: rgb(241, 185, 191);
+}
+
+.nav ul li {
+  background-color: rgb(220, 242, 247);
+}
+.nav ul li:hover {
+  background-color: rgb(236, 255, 250);
+}
+.nav ul li:hover a {
+  color: orange;
+}
+.nav ul li a {
+  color: rgb(78, 80, 80);
+  text-decoration: none;
+}
+
+.diray li {
+  border: 1px solid rgb(119, 115, 115);
+}
+.diray li:nth-child(even) {
+  background-color: yellow;
+}
+.diray li:nth-child(odd) {
+  background-color: rgb(201, 238, 185);
+}
+.diray li:nth-child(1) {
+  background-color: rgb(141, 203, 55);
+}/*# sourceMappingURL=style.css.map */
