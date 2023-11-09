@@ -18,7 +18,7 @@ let count = 0;
 let bestTime = "";
 let startTime;
 loadBestTime();
-bestTimeRecord.innerText = `最快通關速度：${bestTime}秒`;
+bestTimeRecord.innerText = `最快通關速度：${bestTime}`;
 
 function getRandom(min, max) {
   return min + Math.floor(Math.random() * (max - min));
